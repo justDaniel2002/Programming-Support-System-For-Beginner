@@ -18,11 +18,11 @@ interface dev {
 }
 
 export const headerData: section[] = [
-	{ display: 'Learning', link: 'learning' },
-	{ display: 'Leaderboard', link: 'leaderboard' },
-	{ display: 'Achievements', link: 'achieve' },
-	{ display: 'Forums', link: 'forums' },
-	{ display: 'About Us', link: 'aboutus' }
+	{ display: 'Learning', link: '/learning' },
+	{ display: 'Leaderboard', link: '/leaderboard' },
+	{ display: 'Achievements', link: '/achieve' },
+	{ display: 'Forums', link: '/forums' },
+	{ display: 'About Us', link: '/aboutus' }
 ];
 
 export const teammates: dev[] = [

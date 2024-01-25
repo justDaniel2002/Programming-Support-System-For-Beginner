@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { t } from "../translations/i18n";
+
 	export let post: any;
 </script>
 
@@ -11,7 +13,7 @@
 		</div>
 		<div class="pb-5 flex justify-between items-center">
             <div>
-                <div class="font-light text-lg">There are <span class="text-red-500">{post.comment}</span> comment(s)</div>
+                <div class="font-light text-lg">{@html $t('Commentinfo', {n: post.comment})}</div>
                 <div>Created time: {post.createdDate}</div>
             </div>
             <a href="/home">see the post</a>
