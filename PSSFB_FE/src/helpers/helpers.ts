@@ -1,6 +1,7 @@
 import { toasts, ToastContainer, FlatToast, BootstrapToast } from 'svelte-toasts';
 import type { ToastType } from 'svelte-toasts/types/common';
 
+
 export function secondsToHMS(seconds: number) {
 	// Calculate hours, minutes, and remaining seconds
 	var hours = Math.floor(seconds / 3600);
@@ -42,3 +43,13 @@ export function isValidEmail(email:string) {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
 }
+
+export function decodeJWT(token:string) {
+	try {
+	  const decoded = atob(token);
+	  return decoded;
+	} catch (error:any) {
+	  console.error('Error decoding JWT:', error.message);
+	  return null;
+	}
+  }
