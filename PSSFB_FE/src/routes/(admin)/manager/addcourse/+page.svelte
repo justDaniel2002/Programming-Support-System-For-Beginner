@@ -15,9 +15,9 @@
 	import CodeEditor2 from '../../../../components/CodeEditor2.svelte';
 	import Icon from '@iconify/svelte';
 	import { checkExist } from '../../../../helpers/helpers';
-	import { addCourse } from '$lib/services/ModerationServices';
 	import { currentUser } from '../../../../stores/store';
 	import { goto } from '$app/navigation';
+	import { addCourse } from '$lib/services/ModerationServices';
 
 	let CourseName = '';
 
@@ -116,14 +116,16 @@
 	};
 
 	const AddCourse = async () => {
-		await addCourse({
+		const course = {
 			name: CourseName,
 			description: Description,
 			picture: Picture,
 			tag: Tag,
 			createdBy: $currentUser.UserID,
 			chapters: Chapters
-		});
+		}
+		console.log("addcourse",JSON.stringify(course))
+		await addCourse(course);
 		goto("/manager/courseslist")
 	};
 </script>
@@ -363,7 +365,7 @@
 			{/each}
 			<button on:click={AddChapter} class="py-2 px-5 border rounded-lg">Add Chapter</button>
 			<div class="flex justify-end">
-				<button on:click={addCourse} class="py-2 px-5 border rounded-lg">Add Course</button>
+				<button on:click={AddCourse} class="py-2 px-5 border rounded-lg">Add Course</button>
 			</div>
 		</div>
 	</form>
