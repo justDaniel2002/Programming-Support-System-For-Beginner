@@ -94,7 +94,7 @@
 	};
 
 	const AddLession = (index: number) => {
-		Chapters[index].Lessions = [...Chapters[index].Lessions, initLessions()];
+		Chapters[index].lessons = [...Chapters[index].lessons, initLessions()];
 	};
 
 	const AddCodeQuestion = (index: number) => {
@@ -102,15 +102,15 @@
 	};
 
 	const AddQuestion = (indexc: number, lindex: number) => {
-		Chapters[indexc].Lessions[lindex].questions = [
-			...Chapters[indexc].Lessions[lindex].questions,
+		Chapters[indexc].lessons[lindex].questions = [
+			...Chapters[indexc].lessons[lindex].questions,
 			initQuestion()
 		];
 	};
 
 	const AddAnswer = (indexc: number, lindex: number, qindex: number) => {
-		Chapters[indexc].Lessions[lindex].questions[qindex].answerOptions = [
-			...Chapters[indexc].Lessions[lindex].questions[qindex].answerOptions,
+		Chapters[indexc].lessons[lindex].questions[qindex].answerOptions = [
+			...Chapters[indexc].lessons[lindex].questions[qindex].answerOptions,
 			initAnswer(true)
 		];
 	};
@@ -188,7 +188,7 @@
 					<div class="pl-5 mb-5">
 						<div class="text-2xl font-medium mb-5">Lessions of chapter {chapter.Name}</div>
 
-						{#each chapter.Lessions as lession, indexl}
+						{#each chapter.lessons as lession, indexl}
 							<div
 								role="button"
 								tabindex="0"
@@ -294,7 +294,7 @@
 
 									{#each cq.testCases as testcase, index}
 										<Label defaultClass=" mb-5 ml-5 block">Testcases {index + 1}</Label>
-										{#if testcase.inputTypeInt != null}
+										{#if testcase.inputTypeInt != null || testcase.expectedResultInt!=null}
 											Input
 											<input
 												bind:value={testcase.inputTypeInt}
@@ -309,9 +309,9 @@
 												class="p-3 ml-5 text-black mb-5 border rounded-lg"
 												placeholder="Result"
 											/>
-										{/if}
+										
 
-										{#if checkExist(testcase.inputTypeString)}
+										{:else if testcase.inputTypeString!=null || testcase.expectedResultString!=null}
 											Input
 											<input
 												bind:value={testcase.inputTypeString}
@@ -324,9 +324,9 @@
 												class="p-3 ml-5 text-black w-1/3 mb-5 border rounded-lg block"
 												placeholder="Result"
 											/>
-										{/if}
+										
 
-										{#if testcase.inputTypeBoolean != null}
+										{:else if testcase.inputTypeBoolean != null || testcase.expectedResultBoolean !=null}
 											<input
 												bind:checked={testcase.inputTypeBoolean}
 												type="checkbox"
