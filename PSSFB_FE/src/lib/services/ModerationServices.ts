@@ -12,6 +12,32 @@ export const addCourse = async (course: any) => {
 		console.log(err);
 		return err;
 	}
+}
+
+export const addChapter = async (chapter: any) => {
+	try {
+		const result = await axios.post(
+			`https://moderationservice.azurewebsites.net/api/ChapterModeration/AddChapter`,
+			chapter
+		);
+		return result.data;
+	} catch (err) {
+		console.log(err);
+		return err;
+	}
+};
+
+export const addLession = async (chapter: any) => {
+	try {
+		const result = await axios.post(
+			`https://moderationservice.azurewebsites.net/api/LessonModeration/CreateLesson`,
+			chapter
+		);
+		return result.data;
+	} catch (err) {
+		console.log(err);
+		return err;
+	}
 };
 
 export const getAllModCourse = async () => {

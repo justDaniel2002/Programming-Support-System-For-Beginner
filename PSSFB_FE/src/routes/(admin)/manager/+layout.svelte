@@ -1,10 +1,19 @@
 <script lang="ts">
     
 	import { goto } from '$app/navigation';
+	import { beforeUpdate } from 'svelte';
+	import { currentUser } from '../../../stores/store';
     
     let section = "Courses Lists"
     const sections = ['Courses Lists', 'Add Course', 'Posts List', 'Add Post']
     
+    beforeUpdate(async () => {
+		if (!$currentUser) {
+			goto('/');
+		}else if($currentUser.Role.includes('Student')){
+			goto('/learning');
+		}
+	});
     </script>
     
     <div class="bg-neutral-100 py-40 flex text-black">
