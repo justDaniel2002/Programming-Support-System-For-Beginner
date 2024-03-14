@@ -2,7 +2,7 @@
 	import { Textarea, Select, Label, Toolbar, ToolbarGroup, ToolbarButton } from 'flowbite-svelte';
 	import Editor from '@tinymce/tinymce-svelte';
 	// import { PaperClipOutline, MapPinAltSolid, ImageOutline, CodeOutline, FaceGrinOutline, PapperPlaneOutline } from 'flowbite-svelte-icons';
-	import Input from '../../../../atoms/Input.svelte';
+	import Input from '../../../../../atoms/Input.svelte';
 	import {
 		initChapter,
 		type Chapter,
@@ -12,12 +12,16 @@
 		initAnswer,
 		initTestCase
 	} from '$lib/type';
-	import CodeEditor2 from '../../../../components/CodeEditor2.svelte';
+	import CodeEditor2 from '../../../../../components/CodeEditor2.svelte';
 	import Icon from '@iconify/svelte';
-	import { checkExist } from '../../../../helpers/helpers';
-	import { currentUser } from '../../../../stores/store';
+	import { checkExist, showToast } from '../../../../../helpers/helpers';
+	import { currentUser } from '../../../../../stores/store';
 	import { goto } from '$app/navigation';
 	import { addCourse } from '$lib/services/ModerationServices';
+	import CourseSideBar from '../../../../../components/CourseSideBar.svelte';
+	import Button from '../../../../../atoms/Button.svelte';
+	import { language } from '../../../../../data/data';
+	import { afterUpdate } from 'svelte';
 
 	let CourseName = '';
 
@@ -29,108 +33,105 @@
 
 	let Chapters: Chapter[] = [initChapter()];
 
-	let language = [
-		{ value: 'C', name: 'C' },
-		{ value: 'C++', name: 'C++' },
-		{ value: 'C#', name: 'C#' },
-		{ value: 'Java', name: 'Java' },
-		{ value: 'Javascript', name: 'Javascript' },
-		{ value: 'Python', name: 'Python' }
-	];
 
-	let inputTypes = [
-		{ value: 'int', name: 'int' },
-		{ value: 'String', name: 'String' },
-		{ value: 'boolean', name: 'boolean' },
-		{ value: 'int[]', name: 'int[]' },
-		{ value: 'String[]', name: 'String[]' }
-	];
+	
 
-	let inputType = 'int';
+	// let inputType = 'int';
 
-	const addTestCase = (indexc: number, indexcq: number) => {
-		Chapters[indexc].codeQuestions[indexcq].testCases = [
-			...Chapters[indexc].codeQuestions[indexcq].testCases,
-			initTestCase(inputType)
-		];
-	};
+	// const addTestCase = (indexc: number, indexcq: number) => {
+	// 	Chapters[indexc].codeQuestions[indexcq].testCases = [
+	// 		...Chapters[indexc].codeQuestions[indexcq].testCases,
+	// 		initTestCase(inputType)
+	// 	];
+	// };
 
-	const hiddenChapter = (index: number) => {
-		console.log('clicked');
-		const element: any = document.getElementById(`chap${index + 1}div`);
-		if (element.classList.contains('h-1')) {
-			element.classList.remove('h-1');
-			element.classList.add('h-full');
-		} else if (element.classList.contains('h-full')) {
-			element.classList.remove('h-full');
-			element.classList.add('h-1');
-		}
-	};
+	// const hiddenChapter = (index: number) => {
+	// 	console.log('clicked');
+	// 	const element: any = document.getElementById(`chap${index + 1}div`);
+	// 	if (element.classList.contains('h-1')) {
+	// 		element.classList.remove('h-1');
+	// 		element.classList.add('h-full');
+	// 	} else if (element.classList.contains('h-full')) {
+	// 		element.classList.remove('h-full');
+	// 		element.classList.add('h-1');
+	// 	}
+	// };
 
-	const hiddenLession = (indexc: number, index: number) => {
-		const element: any = document.getElementById(`lession${index + 1}ofc${indexc + 1}div`);
-		if (element.classList.contains('h-1')) {
-			element.classList.remove('h-1');
-			element.classList.add('h-full');
-		} else if (element.classList.contains('h-full')) {
-			element.classList.remove('h-full');
-			element.classList.add('h-1');
-		}
-	};
+	// const hiddenLession = (indexc: number, index: number) => {
+	// 	const element: any = document.getElementById(`lession${index + 1}ofc${indexc + 1}div`);
+	// 	if (element.classList.contains('h-1')) {
+	// 		element.classList.remove('h-1');
+	// 		element.classList.add('h-full');
+	// 	} else if (element.classList.contains('h-full')) {
+	// 		element.classList.remove('h-full');
+	// 		element.classList.add('h-1');
+	// 	}
+	// };
 
-	const hiddenCodeQuestion = (indexc: number, index: number) => {
-		const element: any = document.getElementById(`CodeQuestion${index + 1}ofc${indexc + 1}div`);
-		if (element.classList.contains('h-1')) {
-			element.classList.remove('h-1');
-			element.classList.add('h-full');
-		} else if (element.classList.contains('h-full')) {
-			element.classList.remove('h-full');
-			element.classList.add('h-1');
-		}
-	};
+	// const hiddenCodeQuestion = (indexc: number, index: number) => {
+	// 	const element: any = document.getElementById(`CodeQuestion${index + 1}ofc${indexc + 1}div`);
+	// 	if (element.classList.contains('h-1')) {
+	// 		element.classList.remove('h-1');
+	// 		element.classList.add('h-full');
+	// 	} else if (element.classList.contains('h-full')) {
+	// 		element.classList.remove('h-full');
+	// 		element.classList.add('h-1');
+	// 	}
+	// };
 
-	const AddChapter = () => {
-		Chapters = [...Chapters, initChapter()];
-	};
+	// const AddChapter = () => {
+	// 	Chapters = [...Chapters, initChapter()];
+	// };
 
-	const AddLession = (index: number) => {
-		Chapters[index].lessons = [...Chapters[index].lessons, initLessions()];
-	};
+	// const AddLession = (index: number) => {
+	// 	Chapters[index].lessons = [...Chapters[index].lessons, initLessions()];
+	// };
 
-	const AddCodeQuestion = (index: number) => {
-		Chapters[index].codeQuestions = [...Chapters[index].codeQuestions, intitCodeQuestion()];
-	};
+	// const AddCodeQuestion = (index: number) => {
+	// 	Chapters[index].codeQuestions = [...Chapters[index].codeQuestions, intitCodeQuestion()];
+	// };
 
-	const AddQuestion = (indexc: number, lindex: number) => {
-		Chapters[indexc].lessons[lindex].questions = [
-			...Chapters[indexc].lessons[lindex].questions,
-			initQuestion()
-		];
-	};
+	// const AddQuestion = (indexc: number, lindex: number) => {
+	// 	Chapters[indexc].lessons[lindex].questions = [
+	// 		...Chapters[indexc].lessons[lindex].questions,
+	// 		initQuestion()
+	// 	];
+	// };
 
-	const AddAnswer = (indexc: number, lindex: number, qindex: number) => {
-		Chapters[indexc].lessons[lindex].questions[qindex].answerOptions = [
-			...Chapters[indexc].lessons[lindex].questions[qindex].answerOptions,
-			initAnswer(true)
-		];
-	};
+	// const AddAnswer = (indexc: number, lindex: number, qindex: number) => {
+	// 	Chapters[indexc].lessons[lindex].questions[qindex].answerOptions = [
+	// 		...Chapters[indexc].lessons[lindex].questions[qindex].answerOptions,
+	// 		initAnswer(true)
+	// 	];
+	// };
 
-	const AddCourse = async () => {
-		const course = {
-			name: CourseName,
-			description: Description,
-			picture: Picture,
-			tag: Tag,
-			createdBy: $currentUser.UserID,
-			chapters: Chapters
-		}
-		console.log("addcourse",JSON.stringify(course))
-		await addCourse(course);
-		goto("/manager/courseslist")
-	};
+	// const AddCourse = async () => {
+	// 	const course = {
+	// 		name: CourseName,
+	// 		description: Description,
+	// 		picture: Picture,
+	// 		tag: Tag,
+	// 		createdBy: $currentUser.UserID,
+	// 		chapters: Chapters
+	// 	};
+	// 	console.log('addcourse', JSON.stringify(course));
+	// 	await addCourse(course);
+	// 	goto('/manager/courseslist');
+	// };
+
+	export let form: any;
+
+	if(form?.type=='success'){
+		showToast("Add Course",form.message, form.type)
+	}else if(form?.type=='error'){
+		showToast("Add Course",form.message, form.type)
+	}
+
+	let course:any = form?.response
+
 </script>
 
-<div>
+<!-- <div>
 	<form>
 		<Label defaultClass=" mb-3 block">Course Name</Label>
 		<Input
@@ -138,8 +139,7 @@
 			classes="block w-1/3 ml-4 border mb-5"
 			placehoder="Course Name"
 		/>
-		<!-- <Label defaultClass=" mb-3 block">Time Estimate</Label>
-		<Input classes="block w-1/3 ml-4 border mb-5" placehoder="Time Estimate" /> -->
+		
 		<Label defaultClass=" mb-3 block">Description</Label>
 		<div class="mb-5 ml-4"><Textarea bind:value={Description} placeholder="Description" /></div>
 		<Label defaultClass=" mb-3 block">Picture</Label>
@@ -220,7 +220,7 @@
 								/>
 								<Label defaultClass=" mb-3 block">Lession Content</Label>
 								<div class="mb-5 ml-3">
-									<!-- <Textarea bind:value={lession.Content} placeholder="Lession Content"/> -->
+									
 									<Editor
 										bind:value={lession.description}
 										apiKey="rxzla8t3gi19lqs86mqzx01taekkxyk5yyaavvy8rwz0wi83"
@@ -368,5 +368,36 @@
 				<button on:click={AddCourse} class="py-2 px-5 border rounded-lg">Add Course</button>
 			</div>
 		</div>
+	</form>
+</div> -->
+
+
+<div class="w-4/5">
+	<form method="POST" action="?/addcourse">
+		
+		<Label defaultClass=" mb-3 block">Course Name</Label>
+		<Input
+			required={true}
+			value={course?.name}
+			name="name"
+			classes="block w-1/3 ml-4 border mb-5"
+			placehoder="Course Name"
+		/>
+
+		<Label defaultClass=" mb-3 block">Description</Label>
+		<div class="mb-5 ml-4"><Textarea name="description" value={course?.description} placeholder="Description" /></div>
+		<Label defaultClass=" mb-3 block">Picture</Label>
+		<Input
+			required={true}
+			name="picture"
+			value={course?.picture}
+			classes="block w-1/3 ml-4 border mb-5"
+			placehoder="url link"
+		/>
+		<Label>
+			Language
+			<Select name="tag" class="mt-2 ml-4" items={language} value={course?.tag} />
+		</Label>
+		<div class="flex justify-end mt-5"><Button content="Save" /></div>
 	</form>
 </div>
