@@ -394,7 +394,7 @@
 			/>
 			<Label>
 				Language
-				<Select name="tag" class="mt-2 ml-4" items={language} value={course?.tag} />
+				<Select name="tag" class="mt-2 ml-4" items={language} value={course?.tag??'C#'} />
 			</Label>
 			<div class="flex justify-end mt-5"><Button content="Save" /></div>
 		</form>

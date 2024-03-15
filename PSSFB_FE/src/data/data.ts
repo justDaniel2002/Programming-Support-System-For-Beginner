@@ -576,4 +576,4 @@ export let resultTypes = [
 	{ value: 'boolean', name: 'boolean' },
 ];
 
-export const codeLanguage = ['C','C#','C++','Java','JavaScript','Python']
+export const codeLanguage = ['C#','Java']

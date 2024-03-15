@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import Icon from "@iconify/svelte";
+	import Button from "../atoms/Button.svelte";
 
 	export let course: any;
 
@@ -26,12 +27,16 @@
 		}
 	};
 
+	const chapterClick = (id: number) => {
+		goto(`/manager/coursesmanager/editchapter/${courseId}/${id}`);
+	};
+
 	const lessionClick = (l: any, index: number, lindex:number) => {
-		goto(`/lession/${courseId}/${index}/${lindex}`);
+		goto(`/manager/coursesmanager/editlession/${courseId}/${index}/${lindex}`);
 	};
 
 	const codelessionClick = (l: any, index: number, lindex:number) => {
-		goto(`/codelesson/${courseId}/${index}/${lindex}`);
+		goto(`/manager/coursesmanager/editcodelession/${courseId}/${index}/${lindex}`);
 	};
 </script>
 
@@ -41,7 +46,7 @@
 	<hr class="my-5" />
 
 	{#each chapters as s, index}
-		<div class="text-lg font-medium px-3 py-5 flex items-center text-neutral-500">
+		<div class="text-lg font-medium px-3 py-5 flex items-center text-neutral-500 justify-between">
 			<div
 				class="mr-5"
 				tabindex="0"
@@ -54,7 +59,8 @@
 			>
 				{@html minus}
 			</div>
-			{s?.name}
+			<button on:click={() => chapterClick(s.id)} class="font-normal">{s?.name}</button>
+			<Icon icon="material-symbols:delete"  style="color: #ff4d4d" />
 		</div>
 		<div id="schedule{index}">
 			{#each s.lessons as l}
@@ -65,15 +71,17 @@
 						lessionClick(l, s.id, l.id);
 					}}
 					on:click={() => lessionClick(l, s.id, l.id)}
-					class="pl-10 mb-5 flex items-center flex-wrap"
+					class="pl-10 mb-5 flex items-center flex-wrap justify-between"
 				>
 
 					<Icon class="mr-3" icon="ion:book-sharp" style="color: gray" />
 
 					{l.title}
+					<Icon icon="material-symbols:delete"  style="color: #ff4d4d" />
 					<div class="truncate w-full pl-7 pr-10 text-sm text-neutral-500">{l.description}</div>
 				</div>
 			{/each}
+			<Button onclick={() => goto(`/manager/coursesmanager/addcourse/addlession/${courseId}/${s.id}`)} content={"Add Lession"}/>
 
 			{#each s.codeQuestions as l}
 				<div
@@ -83,13 +91,17 @@
 						codelessionClick(l, s.id, l.id);
 					}}
 					on:click={() => codelessionClick(l, s.id, l.id)}
-					class="pl-10 mb-5 flex items-center"
+					class="pl-10 mb-5 flex items-center justify-between"
 				>
 					<Icon class="mr-3 text-2xl" icon="material-symbols:code" style="color: gray" />
 
 					<p class="truncate pr-10">{l.description}</p>
+
+					<Icon icon="material-symbols:delete"  style="color: #ff4d4d" />
 				</div>
 			{/each}
+			<Button onclick={() => goto(`/manager/coursesmanager/addcourse/addcodelession/${courseId}/${s.id}`)} content={"Add Practice Question"}/>
 		</div>
 	{/each}
+	<Button onclick={() => goto(`/manager/coursesmanager/addcourse/addchapter/${courseId}`)} content={"Add Chapter"}/>
 </div>

@@ -40,6 +40,26 @@ export const addLession = async (chapter: any) => {
 	}
 };
 
+export const addCodeQuestion = async (codeques: any) => {
+	try {
+		const result = await axios.post(
+			`https://moderationservice.azurewebsites.net/api/PracticeQuestion/CreatePracticeQuestion`,
+			codeques
+		);
+		return result.data;
+	} catch (err) {
+		console.log(err);
+		return err;
+	}
+};
+
+export const getCreatingCourseByUser = async (id:number) => {
+	const result = await axios.get(
+		`https://moderationservice.azurewebsites.net/api/CourseModeration/GetCourseByUserId?userId=${id}`
+	);
+	return result.data.items;
+};
+
 export const getAllModCourse = async () => {
 	const result = await axios.get(
 		`https://moderationservice.azurewebsites.net/api/Moderation/GetModerationsCourse`
