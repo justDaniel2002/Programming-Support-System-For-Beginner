@@ -45,7 +45,7 @@
 		{/each}
 	</TableBody>
 </Table> -->
-<div class="pl-5"><Button onclick={() => goto("/manager/coursesmanager/addcourse")} content="Add Course"/></div>
+<!-- <div class="pl-5"><Button onclick={() => goto("/manager/coursesmanager/addcourse")} content="Add Course"/></div> -->
 <div class="flex flex-wrap w-full items-center py-10">
 	
 	{#each courses as c}

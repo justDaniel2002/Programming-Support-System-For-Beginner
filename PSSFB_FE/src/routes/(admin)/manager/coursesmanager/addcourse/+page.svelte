@@ -21,7 +21,7 @@
 	import CourseSideBar from '../../../../../components/CourseSideBar.svelte';
 	import Button from '../../../../../atoms/Button.svelte';
 	import { language } from '../../../../../data/data';
-	import { afterUpdate } from 'svelte';
+	import { afterUpdate, beforeUpdate } from 'svelte';
 	import AdminCourseSb from '../../../../../components/AdminCourseSB.svelte';
 	
 
@@ -121,7 +121,7 @@
 
 	let course:any = form?.response
 
-	afterUpdate(() => {
+	beforeUpdate(() => {
 		if(form?.response&&form?.type=='success'){
 		goto(`addcourse/addchapter/${form?.response.id}`)
 	}
@@ -372,7 +372,8 @@
 
 	<div class="w-4/5">
 		<form method="POST" action="?/addcourse">
-			
+			<Label defaultClass=" mb-3 block">Add Course</Label>
+			<hr class="my-3"/>
 			<Label defaultClass=" mb-3 block">Course Name</Label>
 			<Input
 				required={true}

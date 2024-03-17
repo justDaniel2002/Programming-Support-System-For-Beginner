@@ -14,16 +14,17 @@
 	import { goto } from '$app/navigation';
 	import AdminCourseSb from '../../../../../../../components/AdminCourseSB.svelte';
 	import { showToast } from '../../../../../../../helpers/helpers';
-	import { addLession } from '$lib/services/ModerationServices';
+	import { addLession, getModCourseById, updateLession } from '$lib/services/ModerationServices';
 	import { page } from '$app/stores';
+	import { getCourseById } from '$lib/services/CourseServices';
 
 	export let data;
 	let course = data.course;
-	let lession: Lession = initLessions();
-	$: questions = lession.questions;
+	let lession = data.lession;
+	$: questions = lession.questions??[];
 	const ids = $page.params.ids.split("/");
-	const courseId = ids[0]
-	const chapterId = ids[1]
+	const lessionId = ids[1]
+	const courseId:any = ids[0]
 	let defaultModal = false;
 	let SelectedQIndex = 0;
 	const addQues = () => {
@@ -40,16 +41,17 @@
 		lession.questions[SelectedQIndex].answerOptions = [...copy.slice(0, index), ...copy.slice(index+1, copy.length+1)]
 	}
 
-	const AddLession = async () => {
+	const EditLession = async () => {
 		try{
-			const response = await addLession({chapterId, lesson:lession})
+			const response = await updateLession({lessonId: lessionId, lesson:lession})
 			console.log(response)
-			showToast("Add Lession","Add lession success","success")
-			console.log(JSON.stringify({chapterId, lession}))
-			goto(`/manager/coursesmanager/addcourse/addcodelession/${courseId}/${chapterId}`)
+			showToast("Edit Lession","Edit lession success","success")
+			console.log(JSON.stringify({lessonId: lessionId, lesson:lession}))
+			course = await getModCourseById(courseId)
+			console.log("course",course)
 		}catch(e) {
 			console.error(e)
-			showToast("Add Lession","Something went wrong","error")
+			showToast("Edit Lession","Something went wrong","error")
 		}
 	}
 </script>
@@ -57,7 +59,7 @@
 <div class="flex">
 	<div class="w-4/5">
 		<div>
-			<Label defaultClass=" mb-3 block">Add Lession</Label>
+			<Label defaultClass=" mb-3 block">Edit Lession</Label>
 			<hr class="my-3"/>
 			<Label defaultClass=" mb-3 block">Lession Title</Label>
 			<Input
@@ -126,7 +128,7 @@
 
 			<Button onclick={addQues} content="Add Question" />
 			<div class="flex justify-end">
-				<Button onclick={AddLession} content="Save" />
+				<Button onclick={EditLession} content="Save" />
 			</div>
 		</div>
 	</div>

@@ -136,7 +136,7 @@ export function intitCodeQuestion(): codeQuestion {
 	return {
 		description: 'description',
 		codeForm: '',
-		testCases: []
+		testCases: [initTestCase('int')]
 	};
 }
 

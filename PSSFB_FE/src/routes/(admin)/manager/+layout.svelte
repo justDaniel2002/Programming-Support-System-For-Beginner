@@ -22,14 +22,21 @@
             <div class="pl-5">
                 <div class="font-medium text-xl mb-2">Courses Manager</div>
                 <div class="mb-5">
-                    <a class="pl-3 hover:bg-neutral-100 block" href="/manager/courseslist">Courses List</a>
+                    {#if $currentUser?.Role == 'Admin System'}
+                    <a class="pl-3 hover:bg-neutral-100 block" href="/manager/moderationcourses">Moderation Courses</a>
+                    {/if}
+                   
+                    {#if $currentUser?.Role == 'Admin Bussiness'}
+                    <a href="/manager/creattingcourses" class="pl-3 hover:bg-neutral-100 block">Created Courses</a>
                     <!-- <div role="button" tabindex="0" on:keydown={() => goto("/manager/courseslist")} on:click={() => {console.log('goto')}} class="pl-3 hover:bg-neutral-100">Courses List</div> -->
                     <a href="/manager/coursesmanager/addcourse" class="pl-3 hover:bg-neutral-100 block">Add Course</a>
+                    {/if}
+                    
                 </div>
                 <div class="font-medium text-xl mb-2">Posts Manager</div>
                 <div>
                     <a href="/manager/postslist" class="pl-3 hover:bg-neutral-100 block">Posts List</a>
-                    <a href="/manager/addpost" class="pl-3 hover:bg-neutral-100">Add Post</a>
+                    <a href="/manager/postmanager/addpost" class="pl-3 hover:bg-neutral-100">Add Post</a>
                 </div>
             </div>
         </div>

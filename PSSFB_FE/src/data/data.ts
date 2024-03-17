@@ -554,12 +554,8 @@ export const Posts = [
 ]
 
 export const language = [
-	{ value: 'C', name: 'C' },
-	{ value: 'C++', name: 'C++' },
 	{ value: 'C#', name: 'C#' },
 	{ value: 'Java', name: 'Java' },
-	{ value: 'Javascript', name: 'Javascript' },
-	{ value: 'Python', name: 'Python' }
 ];
 
 export let inputTypes = [
