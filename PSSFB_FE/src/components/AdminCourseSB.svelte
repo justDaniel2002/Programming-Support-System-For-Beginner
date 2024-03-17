@@ -87,7 +87,7 @@
 	};
 </script>
 
-<div class="w-full h-full shadow-xl rounded-2xl mr-10 border bg-white">
+<div class="w-full h-full shadow-xl rounded-2xl mr-10 border bg-white pr-3">
 	<div class="text-2xl font-medium px-3 py-5">{course.name}</div>
 
 	<hr class="my-5" />
@@ -132,11 +132,10 @@
 					<div class="truncate w-full pl-7 pr-10 text-sm text-neutral-500">{l.description}</div>
 				</div>
 			{/each}
-			<div class="flex justify-end">
-				<Button
-					onclick={() => goto(`/manager/coursesmanager/addcourse/addlession/${courseId}/${s.id}`)}
-					content={'Add Lession'}
-				/>
+			<div class="flex justify-end my-5">
+				<button class="text-blue-500"
+					on:click={() => goto(`/manager/coursesmanager/addcourse/addlession/${courseId}/${s.id}`)}
+				>Add Lession</button>
 			</div>
 
 			{#each s.codeQuestions as l}
@@ -148,27 +147,25 @@
 					>
 					<button
 						on:click={() => {
-							deleteObject = { id: l.id, type: 'pratice quesion' };
+							deleteObject = { id: l.id, type: 'practice question' };
 							firstWM = true;
 						}}><Icon icon="material-symbols:delete" style="color: #ff4d4d" /></button
 					>
 				</div>
 			{/each}
 
-			<div class="flex justify-end">
-				<Button
-					onclick={() =>
+			<div class="flex justify-end my-5">
+				<button class="text-blue-500"
+					on:click={() =>
 						goto(`/manager/coursesmanager/addcourse/addcodelession/${courseId}/${s.id}`)}
-					content={'Add Practice Question'}
-				/>
+				>Add Practice Question</button>
 			</div>
 		</div>
 	{/each}
-	<div class="flex justify-end">
-		<Button
-			onclick={() => goto(`/manager/coursesmanager/addcourse/addchapter/${courseId}`)}
-			content={'Add Chapter'}
-		/>
+	<div class="flex justify-end my-5">
+		<button class="text-blue-500"
+			on:click={() => goto(`/manager/coursesmanager/addcourse/addchapter/${courseId}`)}
+		>Add Chapter</button>
 	</div>
 </div>
 

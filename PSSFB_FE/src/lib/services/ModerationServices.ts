@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { ax, type N } from 'vitest/dist/reporters-trlZlObr.js';
 
 export const addCourse = async (course: any) => {
 	try {
