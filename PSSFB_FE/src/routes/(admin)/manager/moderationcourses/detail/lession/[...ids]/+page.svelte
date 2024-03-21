@@ -20,6 +20,7 @@
 	import AdminSystemSb from '../../../../../../../components/AdminSystemSB.svelte';
 
 	export let data;
+	console.log(data);
 	let course = data.course;
 	let lession = data.lession;
 	$: questions = lession.questions??[];
@@ -86,9 +87,7 @@
 	{#each questions[SelectedQIndex].answerOptions as answer, index}
 		<div class="flex justify-between">
 			<div>
-				<Label>Answer</Label>
-				<Input classes="border w-2/3" bind:value={answer.optionsText} />
-				<input type="checkbox" bind:checked={answer.correctAnswer} />
+				<Label>Answer: {answer.optionsText}</Label>
 			</div>
 		</div>
 	{/each}

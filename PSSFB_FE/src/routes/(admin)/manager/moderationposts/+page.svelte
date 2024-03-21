@@ -10,19 +10,47 @@
 
 	import Button2 from '../../../../atoms/Button2.svelte';
 	import { goto } from '$app/navigation';
-	import { currentUser } from '../../../../stores/store';
+	import { currentUser, pageStatus } from '../../../../stores/store';
 	import { approvedPost, getAllModPosts } from '$lib/services/ModerationServices';
+	import { showToast } from '../../../../helpers/helpers';
+	import Pagination from '../../../../components/Pagination.svelte';
+	import Input from '../../../../atoms/Input.svelte';
 
 	export let data;
-	let Posts = data.posts;
+	let result = data.result
+	$: Posts = result.items;
 
+	let searchStr = '';
+
+	const pagiClick = async (page: number) => {
+		result = await getAllModPosts(searchStr, page);
+	};
+
+	const searchFunc = async (event: any) => {
+		pageStatus.set('load')
+		if (event.keyCode === 13) {
+			// Your code to handle Enter key press
+			try {
+				result = await getAllModPosts(searchStr);
+			} catch (err) {
+				console.log(err);
+			}
+		}
+		pageStatus.set('done')
+	};
 	const appPost = async (id: number) => {
-		const response = await approvedPost(id);
+		try {
+			const response = await approvedPost(id);
 		console.log(response);
 		Posts = await getAllModPosts();
+		showToast("Approved post","Approved post success","success")
+		} catch (error) {
+			console.error(error)
+			showToast("Approved post","Something went wrong","error")
+		}
 	};
 </script>
-
+<Input onKeyDown={searchFunc} bind:value={searchStr} classes="w-1/4 mr-3" placehoder="search" />
 <Table>
 	<TableHead>
 		<TableHeadCell>#</TableHeadCell>
@@ -51,7 +79,7 @@
 					<Button2 classes="border mr-3" content="delete" />
 
 					<Button2
-						onclick={() => goto(`postslist/${p.postId}`)}
+						onclick={() => goto(`moderationposts/${p.postId}`)}
 						classes="border mr-3"
 						content="detail"
 					/>
@@ -61,3 +89,4 @@
 		{/each}
 	</TableBody>
 </Table>
+<Pagination pagi={result} {pagiClick} />

@@ -1,8 +1,8 @@
 import { getAllModPosts } from "$lib/services/ModerationServices";
 
 export async function load(){
-    const posts = await getAllModPosts()
+    const result = await getAllModPosts()
     return {
-        posts
+        result
     }
 }
